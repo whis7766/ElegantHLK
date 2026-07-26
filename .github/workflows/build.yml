@@ -16,6 +16,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
+        with:
+          msbuild-architecture: x64
       - name: Build Release x64
         run: msbuild ElegantHLK.sln /p:Configuration=Release /p:Platform=x64 /p:PreferredToolArchitecture=x64 /m
       - name: Create GitHub Release
