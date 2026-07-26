@@ -1,0 +1,30 @@
+name: Build and Release
+on:
+    push:
+        tags:
+            - "v*"
+jobs:
+    build-and-release:
+        runs-on: windows-latest
+        permissions:
+            contents: write
+            actions: write
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Setup MSBuild
+              uses: microsoft/setup-msbuild@v2
+            - name: Build Release x64
+              run: msbuild ElegantHLK.sln /p:Configuration=Release /p:Platform=x64 /p:PreferredToolArchitecture=x64 /m
+            - name: Upload Release Asset
+              uses: softprops/action-gh-release@v2
+              with:
+                  files: x64\Release\ElegantHLK.exe
+                  generate_release_notes: true
+            - uses: Mattraks/delete-workflow-runs@v2.1.0
+              if: always()
+              with:
+                  token: ${{ github.token }}
+                  repository: ${{ github.repository }}
+                  retain_days: 0
+                  keep_minimum_runs: 0
