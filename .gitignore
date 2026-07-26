@@ -15,3 +15,4 @@ ElegantHLK_x86.exe
 x64/
 ipch/
 .vs/
+.vscode/settings.json
